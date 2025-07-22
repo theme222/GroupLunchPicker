@@ -2,14 +2,18 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Testing")
-                .foregroundColor(.green)
-            FoodItem(foodEmoji: "🍎", foodName: "Apple", foodLink: "https://www.youtube.com")
-                .padding()
+        ZStack {
+            Background()
+            VStack {
+                FoodItem(foodEmoji: "🍎", foodName: "Apple", foodLink: "https://www.youtube.com")
+                FoodItem(foodEmoji: "🍎", foodName: "Apple", foodLink: "https://www.youtube.com")
+                FoodItem(foodEmoji: "🍎", foodName: "Apple", foodLink: "https://www.youtube.com")
+                FoodItem(foodEmoji: "🍎", foodName: "Apple", foodLink: "https://www.youtube.com")
+            }
+            HStack {
+                Sidebar()
+                Spacer()
+            }
         }
     }
 }

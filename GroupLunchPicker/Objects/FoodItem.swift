@@ -5,15 +5,9 @@ struct FoodItem: View {
     @State var foodName: String = ""
     @State var foodLink: String = ""
     
-    func ModifyEmoji() {
-        print("changing")
-        foodEmoji = "A"
-    }
-    
     func OpenLink() {
-        
+        print("Opening: " + foodLink)
     }
-    
     
     var body: some View {
         ZStack {
@@ -21,7 +15,9 @@ struct FoodItem: View {
                 .fill(.white)
                 .stroke(.gray, lineWidth: 2)
                 .frame(width: 250, height: 70)
-                
+                .shadow(radius: 1, y: 2)
+                .opacity(0.8)
+
             HStack {
                 Text(foodEmoji)
                     .font(.largeTitle)
