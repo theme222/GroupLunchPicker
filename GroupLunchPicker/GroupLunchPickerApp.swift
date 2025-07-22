@@ -1,10 +1,3 @@
-//
-//  GroupLunchPickerApp.swift
-//  GroupLunchPicker
-//
-//  Created by Sira Tongsima on 18/07/2568.
-//
-
 import SwiftUI
 
 @main

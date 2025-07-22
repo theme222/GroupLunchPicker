@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  GroupLunchPicker
-//
-//  Created by Sira Tongsima on 18/07/2568.
-//
-
 import SwiftUI
 
 struct ContentView: View {
@@ -13,9 +6,11 @@ struct ContentView: View {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text("Testing")
+                .foregroundColor(.green)
+            FoodItem(foodEmoji: "🍎", foodName: "Apple", foodLink: "https://www.youtube.com")
+                .padding()
         }
-        .padding()
     }
 }
 
