@@ -1,23 +1,19 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        ZStack {
-            Background()
-            VStack {
-                FoodItem(foodEmoji: "🍎", foodName: "Apple", foodLink: "https://www.youtube.com")
-                FoodItem(foodEmoji: "🍎", foodName: "Apple", foodLink: "https://www.youtube.com")
-                FoodItem(foodEmoji: "🍎", foodName: "Apple", foodLink: "https://www.youtube.com")
-                FoodItem(foodEmoji: "🍎", foodName: "Apple", foodLink: "https://www.youtube.com")
-            }
-            HStack {
-                Sidebar()
-                Spacer()
-            }
-        }
+  var body: some View {
+    ZStack {
+      Background()
+      Title().offset(x: 0, y: -300)
+      Wheel().offset(x: 0, y: -80)
+      HStack {
+        Sidebar()
+        Spacer()
+      }
     }
+  }
 }
 
 #Preview {
-    ContentView()
+  ContentView()
 }
