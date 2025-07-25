@@ -6,7 +6,7 @@ struct Title: View {
       Text("Group Lunch Picker")
         .font(.largeTitle)
         .bold()
-      Text("When you can't decide what takeout order to choose")
+      Text("When the collective mind can't decide what takeout to choose")
         .font(.caption)
         .italic()
 

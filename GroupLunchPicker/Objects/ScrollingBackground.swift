@@ -1,20 +1,13 @@
 import SwiftUI
 
-var foodEmojis = [
-  "🍏", "🍎", "🍐", "🍊", "🍋", "🍌", "🍉", "🍇", "🍓", "🫐", "🍈", "🍒", "🍑", "🥭", "🍍", "🥥",
-  "🥝", "🍅", "🍆", "🥑", "🥦", "🥬", "🥒", "🌶️", "🫑", "🌽", "🥕", "🫒", "🧄", "🧅", "🥔", "🍠",
-  "🥐", "🥯", "🍞", "🥖", "🫓", "🥞", "🧇", "🧀", "🍖", "🍗", "🥩", "🥓", "🍔", "🍟", "🍕", "🌭",
-  "🥪", "🌮", "🌯", "🫔", "🥙", "🧆", "🥚", "🍳", "🥘", "🍲", "🫕", "🥣", "🥗", "🍿", "🧈", "🧂",
-  "🥫", "🍱", "🍘", "🍙", "🍚", "🍛", "🍜", "🍝", "🍠", "🍢", "🍣", "🍤", "🍥", "🥮", "🍡", "🥟",
-  "🥠", "🥡", "🦀", "🦞", "🦐", "🦑", "🦪", "🍦", "🍧", "🍨", "🍩", "🍪", "🎂", "🍰", "🧁", "🥧",
-  "🍫", "🍬", "🍭", "🍮", "🍯", "🍼", "🥛", "☕️", "🫖", "🍵", "🍶", "🍾", "🍷", "🍸", "🍹", "🍺",
-  "🍻", "🥂", "🥃", "🫗", "🥤", "🧋", "🧃", "🧉", "🧊"
-]
 
 struct Background: View {
-  init() {
-    foodEmojis.shuffle()
+  static var foodEmojis = Misc.foodEmojis
+  
+  init(){
+    Background.foodEmojis.shuffle()
   }
+  
   var body: some View {
     ScrollView(.horizontal, showsIndicators: false) {
       ZStack {
@@ -29,6 +22,7 @@ struct Background: View {
 }
 
 struct BackgroundColumn: View {
+  @Environment(\.colorScheme) var colorScheme
   @State var index: Int
   @State var currentXOffset: CGFloat
   @State var isInit: Bool = true
@@ -57,7 +51,7 @@ struct BackgroundColumn: View {
     }
     DispatchQueue.main.asyncAfter(deadline: .now() + travelTime) {
       if index == 0 {
-        foodEmojis.shuffle()
+        Background.foodEmojis.shuffle()
       }
       isInit = false
       currentXOffset = -100
@@ -68,9 +62,9 @@ struct BackgroundColumn: View {
   var body: some View {
     VStack (spacing: 90) {
       ForEach(1..<10) { i in
-        Text(foodEmojis[foodIndexStart + i])
+        Text(Background.foodEmojis[foodIndexStart + i])
           .font(.title2)
-          .opacity(0.4)
+          .opacity(colorScheme == .light ? 0.4: 0.8)
       }
     }
     .offset(x: currentXOffset, y: index % 2 == 0 ? 50: 0)
