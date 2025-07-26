@@ -66,8 +66,10 @@ struct Misc {
     "🍻", "🥂", "🥃", "🫗", "🥤", "🧋", "🧃", "🧉", "🧊"
   ]
   
-  static let defaultFoodDict = [1: FoodData(emoji: "🧋", name: "Boba Tea", id: 1), 2: FoodData(emoji: "🍣", name: "Sushi", id: 2), 3: FoodData(emoji: "🍚", name: "Fried Rice", id: 3)]
-
+  static let defaultFoodDict = [
+    1: FoodData(emoji: "🧋", name: "Boba Tea",link: "https://en.wikipedia.org/wiki/Bubble_tea", id: 1),
+    2: FoodData(emoji: "🍣", name: "Sushi", link: "https://en.wikipedia.org/wiki/Sushi", id: 2),
+    3: FoodData(emoji: "🍚", name: "Fried Rice", link:"https://en.wikipedia.org/wiki/Fried_rice" ,id: 3)]
 }
 
 

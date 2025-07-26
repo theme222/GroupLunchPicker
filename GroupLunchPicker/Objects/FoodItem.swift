@@ -1,5 +1,6 @@
 import SwiftUI
 import MCEmojiPicker
+import UIKit
 import Foundation
 
 struct FoodItem: View {
@@ -7,10 +8,6 @@ struct FoodItem: View {
   @Binding var data: FoodData
   @State var inputFieldDisabled: Bool = true
   @State var emojiPickerOn: Bool = false
-  
-  func OpenLink() {
-    print("Opening: " + data.link)
-  }
   
   var body: some View {
     ZStack {
@@ -33,51 +30,80 @@ struct FoodItem: View {
           .bold()
           .disabled(inputFieldDisabled)
         Spacer()
-        Button(action: OpenLink) {
-          ZStack {
-            Circle()
-              .fill(.white.opacity(0.6))
-            Circle()
-              .fill(
-                LinearGradient(
-                  gradient: Gradient(colors: [.teal, .purple]),
-                  startPoint: .topLeading,
-                  endPoint: .bottomTrailing
-                )
-              )
-              .opacity(0.2)
-              .frame(width: 50, height: 50)
-            Image(systemName: "link")
-          }
-        } .padding()
+        FoodItem_LinkButton(data: $data, inputFieldDisabled: $inputFieldDisabled)
+          .padding()
       }
     }.frame(width: 250, height: 70)
   }
-  
 }
 
-struct FoodData: Codable {
-  var id: Int
-  var emoji: String
-  var name: String // must be unique
-  var link: String
+fileprivate struct FoodItem_LinkButton: View {
+  @Binding var data: FoodData
+  @Binding var inputFieldDisabled: Bool
   
-  init(emoji: String = "", name: String = "", link: String = "", id: Int = -1) {
-    self.emoji = emoji
-    self.name = name
-    self.link = link
-    self.id = id
-  }
-  
-  mutating func SetUniqueId() {
-    id = Int(Date().timeIntervalSince1970 * 1000)
-  }
-  
-  static func RandomData() -> FoodData {
-    guard let (name, details) = Misc.foodDict.randomElement(), details.count == 2 else {
-      return FoodData(emoji: "❓", name: "Unknown", link: "#")
+  func OpenLink() {
+    print(data.link)
+    if data.link == "" {
+      NotificationCenter.default.post( name: .alertEvent, object: nil, userInfo: ["text": "Link wasn't specified", "color": Color.red] )
     }
     
-    return FoodData(emoji: details[0], name: name, link: details[1])
+    guard let url = URL(string: data.link) else {
+      NotificationCenter.default.post( name: .alertEvent, object: nil, userInfo: ["text": "URL is invalid", "color": Color.red] )
+      return
+    }
+    
+    UIApplication.shared.open(url)
   }
+  
+  func PasteLink() {
+    print(UIPasteboard.general.string)
+    guard let clipboardText = (UIPasteboard.general.string ?? "").ExtractLink() else {
+      NotificationCenter.default.post( name: .alertEvent, object: nil, userInfo: ["text": "Couldn't Find Link In Clipboard", "color": Color.red] )
+      return
+    }
+    data.link = clipboardText
+    NotificationCenter.default.post( name: .alertEvent, object: nil, userInfo: ["text": "Pasted Link From Clipboard", "color": Color.green] )
+    print(clipboardText)
+  }
+  
+  var body: some View {
+    ZStack {
+      Button (action: OpenLink) {
+        ZStack {
+          Circle()
+            .fill(.white.opacity(0.6))
+            .frame(width: 50, height: 50)
+          Circle()
+            .fill(
+              LinearGradient(
+                gradient: Gradient(colors: [.teal, .purple]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+              )
+            )
+            .opacity(0.2)
+            .frame(width: 50, height: 50)
+          Image(systemName: "link")
+            .foregroundStyle(.blue)
+        }
+      } .frame(width: 50, height: 50)
+        .disabled(!inputFieldDisabled)
+      Menu {
+        Button(action: PasteLink) {
+            Label("Paste From Clipboard", systemImage: "clipboard")
+        }
+
+        Button(action: OpenLink) {
+            Label("Open Link", systemImage: "link")
+        }
+      } label: {
+        Circle()
+          .fill(.clear)
+      }.disabled(inputFieldDisabled)
+        .frame(width: 50, height: 50)
+    }
+    
+
+  }
+  
 }

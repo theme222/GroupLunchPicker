@@ -19,11 +19,11 @@ struct Wheel: View {
   }
   
   var body: some View {
-    WheelIntermediate(resultAndNeighbors: GenResultAndNeighbors())
+    Wheel_Intermediate(resultAndNeighbors: GenResultAndNeighbors())
   }
 }
 
-struct WheelIntermediate: View {
+fileprivate struct Wheel_Intermediate: View {
   @EnvironmentObject var foodListData: FoodListData
   @State var currentYOffset: CGFloat = GetYOffsetAtIndex(99)
   @State var currentlyRolling: Bool = false
@@ -43,9 +43,9 @@ struct WheelIntermediate: View {
 
     
     currentlyRolling = true
-    currentYOffset = WheelIntermediate.GetYOffsetAtIndex(99)
+    currentYOffset = Wheel_Intermediate.GetYOffsetAtIndex(99)
     withAnimation(Animation.timingCurve(0.3, 0.03, 0.4, 1.0, duration: 8.0)) {
-      currentYOffset = WheelIntermediate.GetYOffsetAtIndex(2)
+      currentYOffset = Wheel_Intermediate.GetYOffsetAtIndex(2)
       DispatchQueue.main.asyncAfter(deadline: .now() + 8) {
         currentlyRolling = false
       }
@@ -63,28 +63,28 @@ struct WheelIntermediate: View {
           ScrollView {
             VStack (spacing: 0) {
               ForEach(0..<3) { index in
-                ResultFoodItem(data: $resultAndNeighbors[index], scrollYCenter: scrollViewInfo.frame(in: .global).midY)
+                Wheel_ResultFoodItem(data: $resultAndNeighbors[index], scrollYCenter: scrollViewInfo.frame(in: .global).midY)
               }
               ForEach(3..<97) { index in
-                DynamicFoodItem(data: foodListData.GetRandomItemFromUserProvidedFoodDict(), scrollYCenter: scrollViewInfo.frame(in: .global).midY)
+                Wheel_DynamicFoodItem(data: foodListData.GetRandomItemFromUserProvidedFoodDict(), scrollYCenter: scrollViewInfo.frame(in: .global).midY)
                   .id(index)
               }
               ForEach(3..<6) { index in
-                ResultFoodItem(data: $resultAndNeighbors[index], scrollYCenter: scrollViewInfo.frame(in: .global).midY)
+                Wheel_ResultFoodItem(data: $resultAndNeighbors[index], scrollYCenter: scrollViewInfo.frame(in: .global).midY)
               }
             }.frame(width: 300)
           }.offset(x: 0, y: currentYOffset)
             .scrollDisabled(true)
         }.frame(width: 300, height: 280)
           .scrollDisabled(true)
-        SpinButton(CallbackFunction: SpinWheel)
+        Wheel_SpinButton(CallbackFunction: SpinWheel)
           .offset(x: 0, y: 40)
       }
     }.frame(width: 300, height: 280)
   }
 }
 
-struct SpinButton: View {
+fileprivate struct Wheel_SpinButton: View {
   
   var CallbackFunction: () -> Void
   
@@ -113,7 +113,7 @@ struct SpinButton: View {
   
 }
 
-struct DynamicFoodItem: View { // Contains food item but will dynamically size it based on y pos
+fileprivate struct Wheel_DynamicFoodItem: View { // Contains food item but will dynamically size it based on y pos
   @State var data: FoodData
   @State var scrollYCenter: CGFloat
   
@@ -131,7 +131,7 @@ struct DynamicFoodItem: View { // Contains food item but will dynamically size i
   }
 }
 
-struct ResultFoodItem: View { // Contains food item but will dynamically size it based on y pos
+fileprivate struct Wheel_ResultFoodItem: View { // Contains food item but will dynamically size it based on y pos
   @Binding var data: FoodData
   @State var scrollYCenter: CGFloat
   

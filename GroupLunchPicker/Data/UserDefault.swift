@@ -1,6 +1,6 @@
 import Foundation
 
-struct UDKeys {
+fileprivate struct UDKeys {
   static let USERPROVIDEDFOODDICT = "userProvidedFoodDict"
   static let CURRENTORDER = "currentOrder"
   static let NOTFIRSTAPPLAUNCH = "notFirstAppLaunch"
@@ -33,7 +33,11 @@ class FoodListData: ObservableObject {
     if (userProvidedFoodDict.isEmpty) { return FoodData(emoji: "😂", name: "Nothing lol") }
     if (currentOrder.isEmpty) { currentOrder = Array(userProvidedFoodDict.keys) }
     currentOrder.shuffle()
-    return userProvidedFoodDict[currentOrder.popLast()!] ?? FoodData(emoji: "😂", name: "Nothing LOL")
+    
+    guard let output = userProvidedFoodDict[currentOrder.popLast()!] else {
+      return GetNextItem() // Unless the user adds so many items then removes them that it goes over the stack overflow limit this won't crash
+    }
+    return output
   }
   
   
@@ -80,9 +84,4 @@ class FoodListData: ObservableObject {
     UserDefaults.standard.set(currentOrder, forKey: UDKeys.CURRENTORDER)
     UserDefaults.standard.set(true, forKey: UDKeys.NOTFIRSTAPPLAUNCH)
   }
-  
-  
 }
-
-
-

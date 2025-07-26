@@ -11,7 +11,7 @@ struct Sidebar: View {
   }
 }
 
-struct Sidebar_Menu: View {
+fileprivate struct Sidebar_Menu: View {
   @Binding var isOpen: Bool
   @State var currentOffset: CGFloat = 0
   @EnvironmentObject var foodListData: FoodListData
@@ -49,7 +49,7 @@ struct Sidebar_Menu: View {
   }
 }
 
-struct Sidebar_Menu_Add: View {
+fileprivate struct Sidebar_Menu_Add: View {
   @State var currentFoodData: FoodData = FoodData.RandomData()
   @EnvironmentObject var foodListData: FoodListData
 
@@ -80,7 +80,7 @@ struct Sidebar_Menu_Add: View {
   }
 }
 
-struct Sidebar_Menu_Delete: View {
+fileprivate struct Sidebar_Menu_Delete: View {
   @State var data: FoodData
   @EnvironmentObject var foodListData: FoodListData
 
@@ -111,7 +111,7 @@ struct Sidebar_Menu_Delete: View {
   }
 }
 
-struct Sidebar_Menu_Button: View {
+fileprivate struct Sidebar_Menu_Button: View {
   @Binding var isOpen: Bool
   
   func ToggleIsOpen() {

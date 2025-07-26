@@ -14,4 +14,13 @@ extension FloatingPoint {
   }
 }
 
+extension String {
+  func ExtractLink() -> String? {
+    guard let range = self.range(of: #"https://\S+"#, options: .regularExpression) else {
+      return nil
+    }
+    return String(self[range])
+  }
+}
+
 

@@ -12,7 +12,7 @@ struct Background: View {
     ScrollView(.horizontal, showsIndicators: false) {
       ZStack {
         ForEach(0..<6) { index in
-          BackgroundColumn(index: index)
+          Background_Column(index: index)
         }
       }
     }
@@ -21,7 +21,7 @@ struct Background: View {
   }
 }
 
-struct BackgroundColumn: View {
+fileprivate struct Background_Column: View {
   @Environment(\.colorScheme) var colorScheme
   @State var index: Int
   @State var currentXOffset: CGFloat
